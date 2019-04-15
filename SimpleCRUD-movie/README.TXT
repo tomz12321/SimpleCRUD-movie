@@ -9,7 +9,7 @@ PURPOSE OF PROJECT: Java warm up for MAD Assignment1
 VERSION or DATE: 15/04/2019
 HOW TO START THIS PROJECT: 
 
-18/09/2017 Kick Start
+15/04/2019 Kick Start
 
 AUTHORS: Jyhwoei Yang (Tom)
 USER INSTRUCTIONS:
