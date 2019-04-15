@@ -23,7 +23,7 @@ public class MovieDatabase
     /**
      * A method to add Movie to the list
      * 
-     * @param User the User Object
+     * @param newMovie the Movie Object
      * @return 
      */
     public void addMovie(Movie newMovie)
@@ -52,7 +52,7 @@ public class MovieDatabase
         }        
         if (! isDeleted)
         {
-            System.out.println(" No matched users are deleted."); 
+            System.out.println(" No matched movies are deleted."); 
         }
     } 
     
@@ -62,7 +62,7 @@ public class MovieDatabase
      * @param editMovieId,editTitle,editYear,editPoster the id of edit movie
      * @return 
      */
-    public void editUser(String editMovieId, String editTitle, String editYear, String editPoster)
+    public void editMovie(String editMovieId, String editTitle, String editYear, String editPoster)
     {        
         //set()
         boolean isEdited = false;
@@ -80,7 +80,7 @@ public class MovieDatabase
         }        
         if (! isEdited)
         {
-            System.out.println(" No matched users are Edited."); 
+            System.out.println(" No matched movies are Edited."); 
         }
     }
     
@@ -99,7 +99,7 @@ public class MovieDatabase
      * A method to return the whole movie list
      * 
      * @param 
-     * @return the whole userList
+     * @return the whole movieList
      */
     public ArrayList<Movie> getMovieList()
     {
@@ -118,7 +118,7 @@ public class MovieDatabase
     }   
     
     /**
-     * List all the users currently in the database on standard out.
+     * List all the movies currently in the database on standard out.
      */
     public void listAll() 
     {
@@ -153,7 +153,7 @@ public class MovieDatabase
      * @param insertedMovie the insertedMovie, index the index
      * @return 
      */
-    public void setUser(Movie insertedMovie, int index)
+    public void setMovie(Movie insertedMovie, int index)
     {
         movieList.set(index, insertedMovie);
     }
@@ -164,9 +164,9 @@ public class MovieDatabase
     * @param movieId the movieId
     * @return the boolean of Movie Id repeatation
     */
-    public boolean validMovieId(String movieId) //method to check User Name repeatation
+    public boolean validMovieId(String movieId) //method to check Movie Id repeatation
     {
-        //check if user name is not in database , and return false to break while loop
+        //check if movie id is not in database , and return false to break while loop
         for (int i = 0 ; i < getNumbersOfMovies() ; i++ )
         {
             if (movieId.equals(getMovieList().get(i).getId()))

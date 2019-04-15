@@ -34,7 +34,7 @@ public class Movie
      */
     public void displayMovieRecord()
     {
-        //method to test displaying attributes of the user
+        //method to test displaying attributes of the Movie
         System.out.print(id + ",");
         System.out.print(title + ",");
         System.out.print(year + ",");
@@ -90,7 +90,7 @@ public class Movie
     }
     
     /**
-     * A method to set username
+     * A method to set movie id
      * 
      * @param movieId the Movie id
      * @return 

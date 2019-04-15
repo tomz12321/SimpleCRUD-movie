@@ -12,6 +12,7 @@ public class MovieRegistrationSystem
 {
     // instance variables - replace the example below with your own
     private MovieDatabase newMovieList;
+    private EventDatabase newEventList;
 
     /**
      * Default Constructor for objects of class User System
@@ -20,6 +21,7 @@ public class MovieRegistrationSystem
     {
         // initialise instance variables
         newMovieList = new MovieDatabase();
+        newEventList = new EventDatabase();
     }    
 
     /**
@@ -37,8 +39,8 @@ public class MovieRegistrationSystem
         System.out.println("Please insert movie id :");        
         String newMovieId = input.nextLine();
 
-        //valid addUserName if existed , Error message
-        while (validUserName(newMovieId))
+        //valid addMovieName if existed , Error message
+        while (validMovieId(newMovieId))
             newMovieId = input.nextLine();                  
 
         //valid addUser if blank , Error message    
@@ -46,7 +48,7 @@ public class MovieRegistrationSystem
         {
             newMovieId = input.nextLine();
             //valid addUserName if existed , Error message
-            while (validUserName(newMovieId))
+            while (validMovieId(newMovieId))
                 newMovieId = input.nextLine(); 
         }        
         System.out.println("Please insert movie title :");
@@ -73,7 +75,7 @@ public class MovieRegistrationSystem
         while (validBlank(newMoviePoster,"Movie Poster"))
             newMoviePoster = input.nextLine();
         
-        //add user to the list
+        //add movie to the list
         Movie newMovie = new Movie(); 
         newMovie.setId(newMovieId);
         newMovie.setTitle(newMovieTitle);
@@ -83,7 +85,7 @@ public class MovieRegistrationSystem
         //outprint to testing
         newMovie.displayMovieRecord();
 
-        //add to User List
+        //add to Movie List
         newMovieList.addMovie(newMovie);
     }
 
@@ -117,7 +119,7 @@ public class MovieRegistrationSystem
     
     /**
      * A method to delete movie from the database system
-     * if there are above two users appearing on the search result
+     * if there are above two movies appearing on the search result
      * provide choosing options
      * 
      * @param
@@ -140,7 +142,7 @@ public class MovieRegistrationSystem
 
         ArrayList<Movie> delResultList = newMovieList.searchMovie(delKeyword);
 
-        //display User details
+        //display Movie details
         System.out.println("Search Result");
         for (int j = 0 ; j < delResultList.size() ; j++)
         {
@@ -189,7 +191,7 @@ public class MovieRegistrationSystem
             newMovieList.deleteMovie(delUserName);
         }
         else
-            System.out.println("No matched users");
+            System.out.println("No matched movies");
     }
 
     /**
@@ -214,7 +216,7 @@ public class MovieRegistrationSystem
 
     /**
      * A method to edit movie from the database system
-     * if there are above two users appearing on the search result
+     * if there are above two movies appearing on the search result
      * provide choosing options
      * 
      * @param
@@ -222,7 +224,7 @@ public class MovieRegistrationSystem
      */
     private void editMovie()
     {
-        System.out.println("Edit User :");        
+        System.out.println("Edit Movie :");        
         //input
         Scanner input = new Scanner(System.in);
 
@@ -289,7 +291,7 @@ public class MovieRegistrationSystem
                 //input newTitle
                 String newTitle = input.nextLine();
 
-                while (validBlank(newTitle,"user password"))
+                while (validBlank(newTitle,"Title"))
                     newTitle = input.nextLine();
 
                 System.out.println("Please insert new year :");    
@@ -311,12 +313,12 @@ public class MovieRegistrationSystem
                 editActorStringList.add(newYear);
                 editActorStringList.add(newPoster);
                
-                newMovieList.editUser(editMovieId,newTitle,newYear,newPoster);
+                newMovieList.editMovie(editMovieId,newTitle,newYear,newPoster);
                
             }
         }
         else
-            System.out.println("No matched users");
+            System.out.println("No matched movies");
     }
 
     /**
@@ -330,10 +332,12 @@ public class MovieRegistrationSystem
         System.out.println("Exit System");
         //write into file
         writeFile();
+        writeEventFile();
 
         //reset all the attributes
         newMovieList = new MovieDatabase();
-
+        newEventList = new EventDatabase();
+        
         return false;
     }
 
@@ -366,14 +370,14 @@ public class MovieRegistrationSystem
                 {
                    System.out.println (attribute[i]);
                 
-                   //numbers of Users
+                   //numbers of Movies
                    //for (int k = 0 ; k < loadFromFile.getNumbersOfElements() ; k++)
                    //{
-                   //attributes of Users
+                   //attributes of Movies
                    //}
                 }
 
-                System.out.println ("User"+ linecount);
+                System.out.println ("Movie"+ linecount);
                 loadFromFile.setId(attribute[0]);
                 loadFromFile.setTitle(attribute[1]);
                 loadFromFile.setYear(attribute[2]);
@@ -399,6 +403,69 @@ public class MovieRegistrationSystem
     }
 
     /**
+     * A method to read from file
+     * 
+     * @param  
+     * @return
+     * @throws FileNotFoundException if file is not found
+     * @throws IOException while exception during I/O actions
+     */
+    private void readEventFile()
+    {
+        String filename = ("events.txt");
+        String eventStaff;
+        Event loadFromFile;
+        // try catch to handle FileNotFoundException and IOException
+        try
+        {
+            FileReader inputFile = new FileReader(filename);
+            Scanner parser = new Scanner(inputFile);
+            int linecount = 0;
+            while (parser.hasNextLine())
+            {
+                loadFromFile = new Event(); 
+                eventStaff = parser.nextLine();
+                String[] attribute = eventStaff.split(",");
+
+                for (int i = 0 ; i < attribute.length ; i++)
+                {
+                   System.out.println (attribute[i]);
+                
+                   //numbers of Movies
+                   //for (int k = 0 ; k < loadFromFile.getNumbersOfElements() ; k++)
+                   //{
+                   //attributes of Movies
+                   //}
+                }
+
+                System.out.println ("Movie"+ linecount);
+                loadFromFile.setId(attribute[0]);
+                loadFromFile.setTitle(attribute[1]);
+                loadFromFile.setStartDate(attribute[2]);
+                loadFromFile.setEndDate(attribute[3]);
+                loadFromFile.setVenue(attribute[4]);
+                loadFromFile.setLocation(attribute[5]);
+                
+                //add movie to the list
+                Event newEvent = new Event();                               
+
+                loadFromFile.displayEventRecord();
+                newEventList.addEvent(loadFromFile);
+                linecount++;
+            }
+            inputFile.close();
+        }
+        catch(FileNotFoundException exception)
+        {
+            System.out.println(filename + " not found");
+        }
+        catch(IOException exception)
+        {
+            System.out.println("Unexpected I/O error occured");
+        }
+    }
+    
+    /**
      * A method to search movie
      * 
      * @param
@@ -412,7 +479,7 @@ public class MovieRegistrationSystem
         System.out.println("Search Movie , please insert a keyword to search by id:");
         String newMovieId = input.nextLine().toLowerCase();
 
-        while(validBlank(newMovieId,"User Name"))
+        while(validBlank(newMovieId,"Movie Id"))
             newMovieId = input.nextLine().toLowerCase();
 
         //searchUser()
@@ -441,9 +508,10 @@ public class MovieRegistrationSystem
         Scanner input = new Scanner(System.in);
         Boolean isOperating = true;
 
-        //read from file
+        //read movie and event from file
         readFile();
-
+        readEventFile();
+        
         while (isOperating)
         {                        
             //display menu 
@@ -464,24 +532,32 @@ public class MovieRegistrationSystem
                     switch (option)
                     {
                         case '1':
-                        //search User from the list by username
+                        //search Movie from the list by movie id
                         searchMovie();
                         break;
                         case '2':
-                        //add User to the list
+                        //add Movie to the list
                         addMovie();
                         break;
                         case '3':
-                        //delete User from the list
+                        //delete Movie from the list
                         deleteMovie();
                         break;
                         case '4':
-                        //Edit User from the list (Password and Usertype) (HD)
+                        //Edit Movie from the list (Title, Year and Poster) (HD)
                         editMovie();
                         break;
                         case '5':
                         //Exit system, and reset variables
                         isOperating = exitSystem();
+                        break;
+                        case '6':
+                        //Exit system, and reset variables
+                        System.out.println("== create an event and add into file ==");
+                        break;
+                        case '7':
+                        //Exit system, and reset variables
+                        System.out.println("== edit event and add into file ==");
                         break;
                     }
                 }
@@ -545,18 +621,18 @@ public class MovieRegistrationSystem
     }
 
     /**
-     * Method to check User Name repeatation
+     * Method to check Movie Id repeatation
      * 
      * @param UserName the Name
      * @return the boolean of User Name repeatation
      */
-    private boolean validUserName(String userName) //method to check User Name repeatation
+    private boolean validMovieId(String movieId) //method to check User Name repeatation
     {
-        //check if user title is not in database , and return false to break while loop
-        boolean isRepeated = newMovieList.validMovieId(userName);
+        //check if movie id is not in database , and return false to break while loop
+        boolean isRepeated = newMovieList.validMovieId(movieId);
         if (isRepeated)
         {
-            System.out.println("Error : User name existed , please insert another User Name!");
+            System.out.println("Error : Movie id existed , please insert another Movie Id!");
             return isRepeated;
         }
         return false;
@@ -571,9 +647,9 @@ public class MovieRegistrationSystem
     private boolean validOption(char option) //method to check char option
     {
         //check if option is in 1,2,3,4,5,6 , and return false to break if condition , 6 for (HD)
-        if (option < '1' || option > '5')
+        if (option < '1' || option > '7')
         {
-            System.out.println("Error : please insert from (1) to (5)!");
+            System.out.println("Error : please insert from (1) to (7)!");
             return false;
         }
         return true;        
@@ -592,7 +668,7 @@ public class MovieRegistrationSystem
             return false;
         else if (iobuffer.charAt(0) == ' ')
         {
-            System.out.println("Error: UserType shouldn't be space only or start by space character! Please enter the name again:");
+            System.out.println("Error: Att(UserType) shouldn't be space only or start by space character! Please enter the name again:");
             return true;
         }
         return false;
@@ -613,7 +689,7 @@ public class MovieRegistrationSystem
         Scanner input = new Scanner(System.in);
         String line = "";
         int numberOfStaffs;
-        MovieDatabase toWriteUserList = new MovieDatabase();
+        MovieDatabase toWriteMovieList = new MovieDatabase();
         
         //print the result of inserting
         System.out.println("How many movies your want to insert :");
@@ -640,6 +716,68 @@ public class MovieRegistrationSystem
                         line = line + staff[k] + ",";
                     else
                         line = line + staff[k];
+                }
+                //display a message about write line
+                System.out.println("");
+                System.out.println("Write a message in line to a file");
+                System.out.println("");
+
+                outputFile.println(line);
+                //reset line
+                line = "";
+            }
+            outputFile.close();    
+        }
+        catch(IOException exception)
+        {
+            System.out.println("Unexpected I/O error occured");
+        }
+    }
+    
+    /**
+     * A method to write to file
+     * 
+     * @param  
+     * @return
+     * @throws IOException while exception during I/O actions
+     */
+    private void writeEventFile()
+    {
+        String filename = ("myEvent.txt");
+        //use Event.getNumbersOfElement() to replace 6
+        String[] eventStaff = new String[6];
+        Scanner input = new Scanner(System.in);
+        String line = "";
+        int numberOfEventStaffs;
+        EventDatabase toWriteEventList = new EventDatabase();
+        
+        //print the result of inserting
+        System.out.println("How many events your want to insert :");
+        //numberOfStaffs = convertStringtoInt(input.nextLine());
+        numberOfEventStaffs = newEventList.getNumbersOfEvents();
+        System.out.println(numberOfEventStaffs + "");
+        //try catch to handle IOException
+        try
+        {
+            PrintWriter outputFile = new PrintWriter (filename);
+
+            for (int i = 0 ; i < numberOfEventStaffs ; i++ )
+            {
+                eventStaff[0] = newEventList.getEventList().get(i).getId();
+                eventStaff[1] = newEventList.getEventList().get(i).getTitle();
+                eventStaff[2] = newEventList.getEventList().get(i).getStartDate();
+                eventStaff[3] = newEventList.getEventList().get(i).getEndDate();
+                eventStaff[4] = newEventList.getEventList().get(i).getVenue();
+                eventStaff[5] = newEventList.getEventList().get(i).getLocation();
+               
+                //combine elements into a line
+                for (int k = 0 ; k < 6 ; k++ )
+                {   
+                    //line = staff[0] + "," + staff[1] + "," + staff[2] + "," + staff[3] + "," + staff[4] + "," + staff[5];
+                    if (k != 6 - 1)
+                        line = line + eventStaff[k] + ",";
+                    else
+                        line = line + eventStaff[k];
                 }
                 //display a message about write line
                 System.out.println("");
