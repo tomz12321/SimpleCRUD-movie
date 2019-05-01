@@ -1,6 +1,7 @@
 import java.lang.*;
 import java.util.*;
 import java.io.*;
+import java.util.UUID;
 
 /**
  * Create a class for Conference Information System.
@@ -38,7 +39,16 @@ public class MovieRegistrationSystem
         System.out.println("=== Add Movie ===");
         System.out.println("Please insert movie id :");        
         String newMovieId = input.nextLine();
+        
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
 
+        System.out.println("Random UUID String = " + randomUUIDString);
+        System.out.println("UUID version       = " + uuid.version());
+        System.out.println("UUID variant       = " + uuid.variant());
+        
+        newMovieId = randomUUIDString;
+        
         //valid addMovieName if existed , Error message
         while (validMovieId(newMovieId))
             newMovieId = input.nextLine();                  
@@ -504,6 +514,14 @@ public class MovieRegistrationSystem
      */
     public void start()
     {
+        //UUID
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+
+        System.out.println("Random UUID String = " + randomUUIDString);
+        System.out.println("UUID version       = " + uuid.version());
+        System.out.println("UUID variant       = " + uuid.variant());
+        
         //Scanner
         Scanner input = new Scanner(System.in);
         Boolean isOperating = true;
